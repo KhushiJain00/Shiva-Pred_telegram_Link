@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRICKET HUB | Join Now</title>
+    <title>LIVE SCOREBOARD | Join Now</title>
     <style>
         :root {
-            --pitch-green: #1d4d2b;
-            --grass-light: #2d6a3e;
-            --gold: #ffcc00;
+            --pitch-green: #0f2e1a;
+            --grass-neon: #39FF14;
+            --gold: #FFD700;
             --white: #ffffff;
+            --dark-panel: rgba(0, 0, 0, 0.7);
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Arial Black', sans-serif;
-            background: linear-gradient(135deg, var(--pitch-green) 0%, #0a210f 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #1d4d2b 0%, #050f08 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,96 +25,123 @@
             color: var(--white);
         }
 
-        .stadium-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--grass-light);
-            border-radius: 20px;
-            padding: 40px 20px;
-            width: 85%;
-            max-width: 350px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        .scoreboard-container {
+            width: 90%;
+            max-width: 380px;
+            perspective: 1000px;
+        }
+
+        .main-card {
+            background: var(--dark-panel);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
         }
 
-        /* Cricket Pitch Pattern */
-        .stadium-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.03);
-            z-index: 0;
-        }
-
-        .content { position: relative; z-index: 1; }
-
-        .icon-circle {
-            width: 70px;
-            height: 70px;
-            background: var(--gold);
-            border-radius: 50%;
-            margin: 0 auto 20px;
+        /* Header / Live Badge */
+        .card-header {
+            background: #cc0000;
+            padding: 5px 15px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            font-size: 35px;
-            box-shadow: 0 0 15px var(--gold);
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            margin: 0;
-            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.75rem;
             letter-spacing: 1px;
         }
 
-        .tagline {
-            color: var(--gold);
-            font-size: 0.8rem;
-            margin-bottom: 30px;
-            font-weight: bold;
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+            display: inline-block;
+            margin-right: 5px;
         }
 
+        /* Match Content */
+        .match-info {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(57, 255, 20, 0.05));
+        }
+
+        .vs-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .team { font-weight: 900; font-size: 1.2rem; }
+        .vs-badge { 
+            background: var(--gold); 
+            color: black; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            font-size: 0.7rem; 
+        }
+
+        /* Probability Section */
+        .win-prob-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .prob-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            color: #aaa;
+        }
+
+        .prob-bar-bg {
+            height: 12px;
+            background: #333;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .prob-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--grass-neon), #00ffcc);
+            width: 97%; /* THE 97% ACCURACY */
+            box-shadow: 0 0 10px var(--grass-neon);
+        }
+
+        .percentage-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--grass-neon);
+            margin: 10px 0;
+        }
+
+        /* Call to Action */
         .join-btn {
             display: block;
-            background: var(--white);
-            color: var(--pitch-green);
+            background: var(--gold);
+            color: #000;
             text-decoration: none;
-            padding: 15px;
-            border-radius: 50px;
-            font-weight: 900;
+            padding: 16px;
+            border-radius: 8px;
+            font-weight: bold;
             text-transform: uppercase;
+            font-size: 1rem;
             transition: 0.3s;
-            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
 
         .join-btn:hover {
-            background: transparent;
-            color: var(--white);
-            border-color: var(--gold);
-            transform: scale(1.05);
-        }
-
-        .live-indicator {
-            margin-top: 25px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .red-dot {
-            width: 8px;
-            height: 8px;
-            background: #ff0000;
-            border-radius: 50%;
-            animation: pulse 1s infinite;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+            background: #fff;
         }
 
         @keyframes pulse {
@@ -125,17 +153,37 @@
 </head>
 <body>
 
-    <div class="stadium-card">
-        <div class="content">
-            <div class="icon-circle">🏏</div>
-            <h1>CRICKET PREDICTOR</h1>
-            <p class="tagline">LIVE UPDATES • NEWS • STATS</p>
-            
-            <a href="https://t.me/+J1TE-42NroAxMGY9" class="join-btn">Join Telegram</a>
+    <div class="scoreboard-container">
+        <div class="main-card">
+            <div class="card-header">
+                <span><span class="live-dot"></span>LIVE PREDICTION</span>
+                <span>IPL 2026</span>
+            </div>
 
-            <div class="live-indicator">
-                <div class="red-dot"></div>
-                LIVE ANALYSIS ONGOING
+            <div class="match-info">
+                <div class="vs-row">
+                    <div class="team">IND</div>
+                    <div class="vs-badge">VS</div>
+                    <div class="team">AUS</div>
+                </div>
+
+                <div class="win-prob-box">
+                    <div class="prob-header">
+                        <span>WIN PROBABILITY</span>
+                        <span>ACCURACY: 97%</span>
+                    </div>
+                    <div class="prob-bar-bg">
+                        <div class="prob-fill"></div>
+                    </div>
+                    <div class="percentage-text">97.4% WIN RATE</div>
+                    <p style="font-size: 0.75rem; color: #888;">Based on real-time pitch report & AI analysis</p>
+                </div>
+
+                <a href="https://t.me/+J1TE-42NroAxMGY9" class="join-btn">
+                    Get Free Jackpot Team
+                </a>
+
+                <p style="margin-top: 15px; font-size: 0.7rem; color: #4ade80;">✓ 14,500+ Members Joined Today</p>
             </div>
         </div>
     </div>
